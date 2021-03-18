@@ -77,6 +77,10 @@ A very simple serverless data streaming processing that I use to talk to custome
 
 ### Closing the lab
 - Run `cdk destroy`. If some elements are not deleted (because they were changed by hand), delete them via console.
+    - Particularly, if you have changed/updated the Lambda-Kinesis integration by hand, it can remain orphan in your account. To check that, do this:
+        - Run `aws lambda list-event-source-mappings` to get the list of source mappings.
+        - If you find any involving TradingStream and StoreOrders, get its uuid.
+        - Run `aws lambda delete-event-source-mapping --uuid <the uuid you got>` to delete it.
 
 
 ### Extras
@@ -91,4 +95,3 @@ A very simple serverless data streaming processing that I use to talk to custome
     | sort @timestamp desc
     | limit 20
   ~~~
-s
