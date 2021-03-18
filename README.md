@@ -63,7 +63,7 @@ A very simple serverless data streaming processing that I use to talk to custome
         npm install aws-xray-sdk
         ~~~
     5. Open the file `lambda/storeOrders/index.js`
-    6. Replace the first line with the following content:
+    6. Replace the first two lines (with *const*) of that code with the following content: 
         ~~~
         const AWSXRay = require('aws-xray-sdk');
         const AWS = AWSXRay.captureAWS(require('aws-sdk'));
