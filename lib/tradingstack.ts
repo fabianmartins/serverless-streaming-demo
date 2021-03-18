@@ -106,7 +106,7 @@ export class TradingStack extends cdk.Stack {
   
     createLambdaFunction(stream: kinesis.Stream, table: dynamodb.Table) {
       const storeOrdersFunction = new lambda.Function(this, "StoreOrdersFunction", {
-        runtime: lambda.Runtime.NODEJS_14_X
+        runtime: lambda.Runtime.NODEJS_12_X
         , handler: 'index.handler'
         , code: lambda.Code.fromAsset("./lambda/storeOrders")
         , functionName: "StoreOrders"
