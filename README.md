@@ -32,7 +32,7 @@ A very simple serverless data streaming processing that I use to talk to custome
     eval $(echo curl -X POST -H 'content-type:application/json' --data '"INVALID PAYLOAD - $(date -u +%Y-%m-%dT%H:%M:%SZ)"' $API_ENDPOINT)
     ~~~
 15. Check again DynamoDB and CloudWatch logs. Describe the behavior. Can you see the exponential backoff?
-16. Visit X-Ray. Check that there’s no Traces, no Service map.
+16. Visit X-Ray. Check that there are no Traces, no Service map.
 17. Work in pairs, and fix the architecture by:
     1. Enabling logs and ray-tracing for the whole architecture.
     2. Making the Lambda function (“traceable”)
