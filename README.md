@@ -73,7 +73,7 @@ A very simple serverless data streaming processing that I use to talk to custome
     5. Get back to the `:~/environment/serverless-streaming-demo` folder
     6. Run `cdk diff` on the terminal. Check the differences.
     7. Run `cdk deploy`.
-    8. Send more payloads.
+    8. Send a few more payloads (valid and invalid ones).
     9. Give a few seconds for the system to get the traces, and then check again: CloudWatch Logs, CloudWatch Service Lens / Service Map, Traces, and X-Ray.
 
 ### Closing the lab
