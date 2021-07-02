@@ -25,9 +25,9 @@ git clone https://github.com/fabianmartins/serverless-streaming-demo
 
 ~~~
 aws codecommit create-repository --repository-name cicd-demo
-~~~
+~~~  
 
-    You are going to receive a response like the one below
+You are going to receive a response like the one below
 
 ~~~
 {
@@ -43,7 +43,8 @@ aws codecommit create-repository --repository-name cicd-demo
     }
 }
 ~~~
-    Take note of the cloneUrlHttp, and visit CodeCommit in your account and see that the repository is created, and it's empty.  
+
+Take note of the cloneUrlHttp, and visit CodeCommit in your account and see that the repository is created, and it's empty.  
 
 3. Get into the serverless-streaming-demo folder.
 
@@ -57,7 +58,7 @@ cd serverless-streaming-demo
 git remote -v
 ~~~
 
-    You should get
+You should get
 
 ~~~
 origin  https://github.com/fabianmartins/serverless-streaming-demo (fetch)
@@ -76,7 +77,7 @@ git remote set-url origin << cloneUrlHttp>>
 git remote -v
 ~~~
 
-    You should get
+You should get
 
 ~~~
 origin  https://git-codecommit.<region>.amazonaws.com/v1/repos/cicd-demo (fetch)
