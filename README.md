@@ -2,6 +2,10 @@
 
 A very simple serverless data streaming processing that I use to talk to customers and students.
 
+This is the architecture that we are going to use as an starting point for this demo:
+
+![](pics/architecture.png)
+
 To deploy this environment on you AWS account, follow these steps:
 
 1. Create a Cloud9 instance
