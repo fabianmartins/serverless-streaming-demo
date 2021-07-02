@@ -3,7 +3,7 @@
 This lab considers that:
 - You are working from a Cloud9 environment.
 - That you have cloned this repository and have already deployed the environment.
-- That you already have run the [DLQ](labs/dlq/README.md) and [Observability](labs/observability/README.md) labs
+- That you already have run the [DLQ](./../dlq/README.md) and [Observability](./../observability/README.md) labs
 
 ***
 
@@ -21,7 +21,7 @@ Consider the following requirement for [our architecture](pics/architecture.png)
 
 ![](pics/eventbridge.lab.png)
 
-In this architecture we are going capture the records inserted into DynamoDB using DynamoDB Streams, and have them sent to the StoredOrdersPublisher function. This function then is going to modify the orders to compute their total value and add it as a property into the payload, and then publish it into the trading custom event bus on EventBridge. A rule that is configured to filter events whose total value is equal or greater than $50000 and will send them to the AMLNOrders.
+In this architecture we are going capture the records inserted into DynamoDB using DynamoDB Streams, and have them sent to the StoredOrdersPublisher function. This function then is going to modify the orders to compute their total value and add it as a property into the payload, and then publish it into the trading custom event bus on EventBridge. A rule that is configured to filter events whose total value is equal or greater than $50,000 and will send them to the AMLNOrders.
 
 Here you should ask some questions:
 
@@ -40,7 +40,7 @@ These are questions to be discussed in group.
 
 3. Create the  Lambda function `StoredOrdersPublisher` that will act as a trigger that is going to post data into EventBridge.
     - Use the documentation as a reference: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.Lambda.Tutorial.html
-    - Open the following link and use it as the code for your lambda function: [index.js](labs/eventbridge/lambda/StoredOrdersPublisher/index.js)
+    - Open the following link and use it as the code for your lambda function: [index.js](./lambda/StoredOrdersPublisher/index.js)
     - Don't forget to give the permissions for your Lambda Function to put events on the EventBridge bus.
 
 

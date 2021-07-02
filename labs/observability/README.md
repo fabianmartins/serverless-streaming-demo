@@ -3,7 +3,7 @@
 This lab considers that:
 - You are working from a Cloud9 environment.
 - That you have cloned this repository and have already deployed the environment.
-- You have already implemented the [DLQ](labs/dlq/README.md) for the architecture.
+- You have already implemented the [DLQ](./../dlq/README.md) for the architecture.
 
 ***
 
