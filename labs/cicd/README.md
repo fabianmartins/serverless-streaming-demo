@@ -130,7 +130,7 @@ git remote add origin <<cloneUrlHttp>>
 
     Don't worry if some error messages show up at this moment. They will disappear soon.
 
-19.	Open the file under the lib folder (cicd-pipeline project again; its name should finish with -stack.ts) and replace its content of the following file: [cicd-pipeline-stack.ts](./cicd/code/cicd-pipeline-stack.ts)
+19.	Open the file under the lib folder (cicd-pipeline project again; its name should finish with -stack.ts) and replace its content of the following file: [cicd-pipeline-stack.ts](./code/cicd-pipeline-stack.ts)
 
 20.	Save all files.
 
