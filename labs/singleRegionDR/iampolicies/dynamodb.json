@@ -1,0 +1,24 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "GetItemStatement",
+            "Effect": "Allow",
+            "Action": "dynamodb:GetItem",
+            "Resource": "<the arn of the TradingOrders for your environment>"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": "dynamodb:DeleteItem",
+            "Resource": "<the arn of the TradingOrders for your environment>",
+            "Condition": {
+                "ForAllValues:StringEquals": {
+                    "dynamodb:LeadingKeys": [
+                        "<key specification>"
+                    ]
+                }
+            }
+        }
+    ]
+}
