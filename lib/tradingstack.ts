@@ -5,20 +5,22 @@ import * as dynamodb from "@aws-cdk/aws-dynamodb";
 import * as kinesis from "@aws-cdk/aws-kinesis";
 import * as iam from "@aws-cdk/aws-iam";
 import * as eventSource from "@aws-cdk/aws-lambda-event-sources";
+import { TradingStackProps } from './tradingstackprops';
 
 export class TradingStack extends cdk.Stack {
 
-    constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+    constructor(scope: cdk.Construct, id: string, props?: TradingStackProps) {
       super(scope, id, props);
-      const tradingStream = this.createTradingStream();
-      const ordersTable = this.createTradingOrdersTable();
-      this.createTradingAPI(tradingStream);
-      this.createLambdaFunction(tradingStream, ordersTable);
+      let envname : string = ( (props && props.envname) ? props.envname : "" );
+      const tradingStream = this.createTradingStream(envname);
+      const ordersTable = this.createTradingOrdersTable(envname);
+      this.createTradingAPI(tradingStream, envname);
+      this.createLambdaFunction(tradingStream, ordersTable, envname);
     }
   
-    createTradingOrdersTable(): dynamodb.Table {
-      return new dynamodb.Table(this, "TradingOrdersTable", {
-        tableName: "TradingOrders",
+    createTradingOrdersTable(envname : string): dynamodb.Table {
+      return new dynamodb.Table(this, "TradingOrdersTable"+envname, {
+        tableName: "TradingOrders"+envname,
         partitionKey: {
           name: "TransactionId",
           type: dynamodb.AttributeType.STRING
@@ -27,17 +29,18 @@ export class TradingStack extends cdk.Stack {
       });
     };
   
-    createTradingStream(): kinesis.Stream {
-      return new kinesis.Stream(this, "TradingStream", {
-        streamName: "TradingStream"
+    createTradingStream(envname : string): kinesis.Stream {
+      return new kinesis.Stream(this, "TradingStream"+envname, {
+        streamName: "TradingStream"+envname
       });
     }
   
-    createTradingAPI(stream: kinesis.Stream): apigateway.RestApi {
-      const tradingAPI = new apigateway.RestApi(this, "trading-api",{
-        description : "Trading application for study purposes"
+    createTradingAPI(stream: kinesis.Stream, envname : string): apigateway.RestApi {
+      const tradingAPI = new apigateway.RestApi(this, "trading-api-"+envname.toLowerCase(),{
+        description : "Trading application for study purposes",
+        endpointTypes : [ apigateway.EndpointType.REGIONAL ]
       });
-      const tradingAPIRole = new iam.Role(this, "APIGatewayRole", {
+      const tradingAPIRole = new iam.Role(this, "APIGatewayRole"+envname, {
         assumedBy: new iam.ServicePrincipal("apigateway.amazonaws.com"),
         managedPolicies: [
           iam.ManagedPolicy.fromAwsManagedPolicyName("service-role/AmazonAPIGatewayPushToCloudWatchLogs")
@@ -104,17 +107,17 @@ export class TradingStack extends cdk.Stack {
       return tradingAPI;
     }
   
-    createLambdaFunction(stream: kinesis.Stream, table: dynamodb.Table) {
-      const storeOrdersFunction = new lambda.Function(this, "StoreOrdersFunction", {
+    createLambdaFunction(stream: kinesis.Stream, table: dynamodb.Table, envname : string) {
+      const storeOrdersFunction = new lambda.Function(this, "StoreOrdersFunction"+envname, {
         runtime: lambda.Runtime.NODEJS_12_X
         , handler: 'index.handler'
         , code: lambda.Code.fromAsset("./lambda/storeOrders")
-        , functionName: "StoreOrders"
+        , functionName: "StoreOrders"+envname
         , description: "This function puts the order into the DynamoDB table"
         , memorySize: 128
         , timeout: cdk.Duration.seconds(60)
-        , role: new iam.Role(this, "StoreOrdersFunctionRole", {
-          roleName: "StoreOrdersFunctionRole"
+        , role: new iam.Role(this, "StoreOrdersFunctionRole"+envname, {
+          roleName: "StoreOrdersFunctionRole"+envname
           , assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
           , managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')]
           , inlinePolicies: {
@@ -143,5 +146,9 @@ export class TradingStack extends cdk.Stack {
         } 
         )
       );
+      new lambda.Alias(this,"StoreOrdersAlias"+envname,{
+        aliasName : "StoreOrdersAlias"+envname,
+        version : storeOrdersFunction.latestVersion
+      })
     }
 }
